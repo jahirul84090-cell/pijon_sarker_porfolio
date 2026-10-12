@@ -12,6 +12,23 @@ export default function Footer() {
 
   return (
     <footer className="site-footer">
+      <div className="container">
+        <div className="footer-cta">
+        <div>
+          <h2>Ready to grow your pipeline?</h2>
+          <p>Send your target criteria and get a free sample before you order.</p>
+        </div>
+        <div className="footer-cta-actions">
+          <ExternalLink className="btn btn-primary btn-lg btn-shine" href={links.fiverr} data-track="footer-cta">
+            Hire me on Fiverr <Icon name="arrow" />
+          </ExternalLink>
+          <a className="btn btn-ghost btn-lg" href="#contact">
+            Get a free quote
+          </a>
+        </div>
+        </div>
+      </div>
+
       <div className="container footer-grid">
         <div>
           <a className="brand" href="#top">
@@ -34,7 +51,7 @@ export default function Footer() {
         <ul className="socials" aria-label="Social profiles">
           {socials.map((s) => (
             <li key={s.name}>
-              <ExternalLink href={s.href} aria-label={s.name}>
+              <ExternalLink href={s.href} aria-label={s.name} data-track="footer-social">
                 <Icon name={s.icon} />
               </ExternalLink>
             </li>
@@ -42,7 +59,7 @@ export default function Footer() {
         </ul>
       </div>
       <div className="container footer-bottom">
-        <p>
+        <p suppressHydrationWarning>
           &copy; {new Date().getFullYear()} {profile.name}. All rights reserved.
         </p>
         <a href="#top" className="to-top">

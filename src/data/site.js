@@ -25,6 +25,25 @@ export const links = {
   formEndpoint: "",
 };
 
+// Visitor statistics (both optional, use one or both):
+// - Plausible: cookie-free, no consent banner. Sign up at plausible.io, add your domain, put it here.
+// - Google Analytics 4: free. Paste your Measurement ID (e.g. "G-XXXXXXXXXX"). A consent banner is shown automatically.
+// Tracked events: fiverr_click, email_click, whatsapp_click, linkedin_click, contact_submit.
+export const analytics = {
+  plausibleDomain: "",
+  gaMeasurementId: "",
+};
+
+// Words that rotate in the hero ("I can help with …")
+export const heroRotating = [
+  "B2B lead generation",
+  "B2C lead generation",
+  "accurate data entry",
+  "Facebook Ads campaigns",
+  "website design",
+  "web development",
+];
+
 export const nav = [
   { href: "#services", label: "Services" },
   { href: "#work", label: "Work" },
@@ -111,13 +130,17 @@ export const workFilters = [
 ];
 
 // Replace these with your real work samples.
-// Optional: add `image: "./work/my-project.jpg"` (file in /public/work) and `link: "https://..."`
+// Images live in /public/work (1200×750 works best). The included images are
+// illustrative mockups; swap in real screenshots (blur client data) when you can.
+// Optional: add `link: "https://..."` to show a "View project" link.
 export const projects = [
   {
     category: "leads",
     icon: "building",
     tag: "B2B Lead Generation",
     title: "SaaS decision-maker list",
+    image: "./work/b2b-leads.webp",
+    imageAlt: "Lead spreadsheet with names, job titles, companies and verified email status",
     text: "Built a list of C-level and VP contacts at US software companies (50–500 employees) with verified emails and LinkedIn URLs.",
     tools: ["Sales Navigator", "Apollo", "Email verification"],
   },
@@ -126,6 +149,8 @@ export const projects = [
     icon: "users",
     tag: "B2C Lead Generation",
     title: "Local business leads for an agency",
+    image: "./work/b2c-local-leads.webp",
+    imageAlt: "Local business lead list with categories, cities, phone numbers and ratings",
     text: "Collected and cleaned contact data for restaurants, salons and clinics across multiple cities for a marketing agency's outreach campaign.",
     tools: ["Google Maps", "Web research", "Google Sheets"],
   },
@@ -134,6 +159,8 @@ export const projects = [
     icon: "table",
     tag: "Data Entry",
     title: "Product catalog upload",
+    image: "./work/data-entry-catalog.webp",
+    imageAlt: "Product catalog spreadsheet with SKUs, titles, prices and stock",
     text: "Converted supplier PDFs into a structured spreadsheet and uploaded products with titles, prices, SKUs and images to an online store.",
     tools: ["Excel", "PDF conversion", "E-commerce"],
   },
@@ -142,6 +169,8 @@ export const projects = [
     icon: "megaphone",
     tag: "Facebook Ads",
     title: "Lead-form campaign for a local service",
+    image: "./work/facebook-ads.webp",
+    imageAlt: "Ads performance dashboard showing campaigns, leads and cost per lead",
     text: "Set up pixel tracking, audiences and lead-form ads, then tested creatives and copy to lower the cost per lead over the campaign.",
     tools: ["Meta Ads Manager", "Pixel", "A/B testing"],
   },
@@ -150,6 +179,8 @@ export const projects = [
     icon: "layout",
     tag: "Website Design",
     title: "Landing page for a consulting firm",
+    image: "./work/landing-page.webp",
+    imageAlt: "Consulting firm landing page design shown in a browser window",
     text: "Designed a clean, conversion-focused landing page with clear service sections, trust signals and a lead-capture form.",
     tools: ["Figma", "Responsive design", "Copy layout"],
   },
@@ -158,6 +189,8 @@ export const projects = [
     icon: "code",
     tag: "Web Development",
     title: "Small business website build",
+    image: "./work/business-website.webp",
+    imageAlt: "Small business website shown on desktop and mobile",
     text: "Developed a fast, mobile-friendly business website with a contact form, on-page SEO and easy-to-update content.",
     tools: ["React", "WordPress", "SEO basics"],
   },

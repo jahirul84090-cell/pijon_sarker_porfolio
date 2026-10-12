@@ -1,6 +1,9 @@
+import { m } from "motion/react";
 import Icon from "./Icon.jsx";
 import SectionHead from "./SectionHead.jsx";
 import ExternalLink from "./ExternalLink.jsx";
+import { Stagger } from "./Motion.jsx";
+import { fadeUp } from "../lib/motion.js";
 import { links, packages } from "../data/site.js";
 
 export default function Pricing() {
@@ -12,9 +15,15 @@ export default function Pricing() {
           title="Simple, transparent pricing"
           sub="Lead generation packages are below. Data entry, Facebook Ads and web projects are quoted based on scope."
         />
-        <div className="pricing-grid">
+        <Stagger className="pricing-grid" gap={0.12}>
           {packages.map((p) => (
-            <article className={`price-card reveal ${p.featured ? "is-featured" : ""}`} key={p.name}>
+            <m.article
+              className={`price-card ${p.featured ? "is-featured" : ""}`}
+              key={p.name}
+              variants={fadeUp}
+              whileHover={{ y: -6 }}
+              transition={{ type: "spring", stiffness: 300, damping: 22 }}
+            >
               {p.featured && <span className="ribbon">Most popular</span>}
               <h3>{p.name}</h3>
               <p className="price">
@@ -28,12 +37,16 @@ export default function Pricing() {
                   </li>
                 ))}
               </ul>
-              <ExternalLink className={`btn ${p.featured ? "btn-primary" : "btn-ghost"} btn-block`} href={links.fiverr}>
+              <ExternalLink
+                className={`btn ${p.featured ? "btn-primary btn-shine" : "btn-ghost"} btn-block`}
+                href={links.fiverr}
+                data-track={`pricing-${p.name.toLowerCase()}`}
+              >
                 Choose {p.name}
               </ExternalLink>
-            </article>
+            </m.article>
           ))}
-        </div>
+        </Stagger>
       </div>
     </section>
   );

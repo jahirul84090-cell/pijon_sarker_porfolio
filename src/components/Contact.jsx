@@ -1,6 +1,9 @@
 import { useState } from "react";
+import { AnimatePresence, m } from "motion/react";
 import Icon from "./Icon.jsx";
 import ExternalLink from "./ExternalLink.jsx";
+import { Reveal } from "./Motion.jsx";
+import { track } from "../lib/analytics.js";
 import { contactServices, links } from "../data/site.js";
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -39,6 +42,7 @@ export default function Contact() {
     if (!links.formEndpoint) {
       const subject = encodeURIComponent(`${form.service} enquiry from ${form.name}`);
       const body = encodeURIComponent(`${form.message}\n\nName: ${form.name}\nEmail: ${form.email}\nService: ${form.service}`);
+      track("contact_submit", { method: "email_app", service: form.service });
       window.location.href = `mailto:${links.email}?subject=${subject}&body=${body}`;
       setStatus({ state: "success", message: "Your email app should open with the message ready to send." });
       return;
@@ -52,6 +56,7 @@ export default function Contact() {
         body: JSON.stringify(form),
       });
       if (!res.ok) throw new Error(`Request failed with ${res.status}`);
+      track("contact_submit", { method: "form", service: form.service });
       setForm(initialForm);
       setStatus({ state: "success", message: "Thanks! Your message was sent. I'll reply within 24 hours." });
     } catch {
@@ -64,14 +69,14 @@ export default function Contact() {
   return (
     <section className="section" id="contact">
       <div className="container contact-grid">
-        <div className="contact-info reveal">
+        <Reveal className="contact-info">
           <p className="kicker">Contact</p>
           <h2>Let's work together</h2>
           <p className="section-sub">Tell me about your project and I'll reply within 24 hours with a plan and a quote.</p>
 
           <ul className="contact-list">
             <li>
-              <ExternalLink href={links.fiverr}>
+              <ExternalLink href={links.fiverr} data-track="contact">
                 <span className="contact-icon">
                   <Icon name="fiverr" />
                 </span>
@@ -106,9 +111,9 @@ export default function Contact() {
               </li>
             )}
           </ul>
-        </div>
+        </Reveal>
 
-        <form className="contact-form reveal" onSubmit={onSubmit} noValidate>
+        <Reveal as="form" className="contact-form" onSubmit={onSubmit} noValidate delay={0.15}>
           <div className="field-row">
             <Field id="cf-name" label="Your name" error={errors.name}>
               <input id="cf-name" name="name" type="text" autoComplete="name" value={form.name} onChange={update} aria-invalid={!!errors.name} aria-describedby={errors.name ? "cf-name-err" : undefined} required />
@@ -130,13 +135,19 @@ export default function Contact() {
 
           <input className="hp" type="text" name="_gotcha" tabIndex={-1} autoComplete="off" aria-hidden="true" value={form._gotcha} onChange={update} />
 
-          <button className="btn btn-primary btn-lg btn-block" type="submit" disabled={status.state === "sending"}>
+          <button className="btn btn-primary btn-lg btn-block btn-shine" type="submit" disabled={status.state === "sending"}>
             {status.state === "sending" ? "Sending…" : "Send message"} <Icon name="arrow" />
           </button>
           <p className={`form-status is-${status.state}`} role="status" aria-live="polite">
-            {status.message}
+            <AnimatePresence mode="wait">
+              {status.message && (
+                <m.span key={status.message} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
+                  {status.message}
+                </m.span>
+              )}
+            </AnimatePresence>
           </p>
-        </form>
+        </Reveal>
       </div>
     </section>
   );
@@ -147,11 +158,19 @@ function Field({ id, label, error, children }) {
     <div className={`field ${error ? "has-error" : ""}`}>
       <label htmlFor={id}>{label}</label>
       {children}
-      {error && (
-        <p className="field-error" id={`${id}-err`}>
-          {error}
-        </p>
-      )}
+      <AnimatePresence>
+        {error && (
+          <m.p
+            className="field-error"
+            id={`${id}-err`}
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+          >
+            {error}
+          </m.p>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

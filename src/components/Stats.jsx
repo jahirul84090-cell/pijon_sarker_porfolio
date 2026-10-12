@@ -1,27 +1,28 @@
 import useCountUp from "../hooks/useCountUp.js";
+import { Stagger, StaggerItem } from "./Motion.jsx";
 import { stats } from "../data/site.js";
 
 function Stat({ value, suffix, label }) {
   const [ref, current] = useCountUp(value);
   return (
-    <div className="stat" ref={ref}>
-      <p className="stat-num">
+    <StaggerItem className="stat">
+      <p className="stat-num" ref={ref}>
         {current}
-        {suffix}
+        <span className="stat-suffix">{suffix}</span>
       </p>
       <p className="stat-label">{label}</p>
-    </div>
+    </StaggerItem>
   );
 }
 
 export default function Stats() {
   return (
     <section className="stats" aria-label="Highlights">
-      <div className="container stats-grid">
+      <Stagger className="container stats-grid" gap={0.1}>
         {stats.map((s) => (
           <Stat key={s.label} {...s} />
         ))}
-      </div>
+      </Stagger>
     </section>
   );
 }

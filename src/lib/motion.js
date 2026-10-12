@@ -1,0 +1,8 @@
+export const ease = [0.22, 1, 0.36, 1];
+
+export const viewport = { once: true, margin: "0px 0px -10% 0px" };
+
+export const fadeUp = {
+  hidden: { opacity: 0, y: 28 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.7, ease } },
+};

@@ -3,14 +3,16 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "Portfolio website for Pijon Sarker — lead generation, data entry, Facebook Ads and web development.",
+  "description": "Portfolio website for Pijon Sarker \u2014 lead generation, data entry, Facebook Ads and web development.",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && vite build --ssr src/entry-server.jsx --outDir dist-ssr && node scripts/prerender.js && node scripts/check-content.js",
     "preview": "vite preview",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "check:content": "node scripts/check-content.js"
   },
   "dependencies": {
+    "motion": "^14.1.0",
     "react": "^19.3.0",
     "react-dom": "^19.3.0"
   },

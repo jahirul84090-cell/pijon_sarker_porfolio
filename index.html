@@ -68,7 +68,8 @@
 <body>
   <div id="root"></div>
   <noscript>
-    <p style="padding:24px;font-family:sans-serif">Pijon Sarker — Lead Generation, Data Entry, Facebook Ads &amp; Web Development. Please enable JavaScript to view this site.</p>
+    <!-- Without JavaScript, show content that would otherwise animate in -->
+    <style>#root [style*="opacity:0"]{opacity:1!important;transform:none!important}</style>
   </noscript>
   <script type="module" src="/src/main.jsx"></script>
 </body>

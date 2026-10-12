@@ -1,6 +1,9 @@
-import Icon from "./Icon.jsx";
+import { m } from "motion/react";
+import Icon, { FiverrLogo } from "./Icon.jsx";
 import SectionHead from "./SectionHead.jsx";
 import ExternalLink from "./ExternalLink.jsx";
+import { Reveal, Stagger } from "./Motion.jsx";
+import { fadeUp } from "../lib/motion.js";
 import { links, reviews } from "../data/site.js";
 
 function Stars({ rating = 5 }) {
@@ -20,27 +23,32 @@ export default function Reviews() {
         <SectionHead kicker="Reviews" title="What clients say" />
 
         {reviews.length > 0 && (
-          <div className="reviews-grid">
+          <Stagger className="reviews-grid" gap={0.1}>
             {reviews.map((r) => (
-              <figure className="review-card reveal" key={r.name + r.text.slice(0, 20)}>
+              <m.figure className="review-card" key={r.name + r.text.slice(0, 20)} variants={fadeUp}>
                 <Stars rating={r.rating} />
                 <blockquote>“{r.text}”</blockquote>
                 <figcaption>
-                  <strong>{r.name}</strong>
-                  <span>{[r.country, r.service].filter(Boolean).join(" · ")}</span>
+                  <span className="review-avatar" aria-hidden="true">
+                    {r.name.slice(0, 1).toUpperCase()}
+                  </span>
+                  <span>
+                    <strong>{r.name}</strong>
+                    <small>{[r.country, r.service].filter(Boolean).join(" · ")}</small>
+                  </span>
                 </figcaption>
-              </figure>
+              </m.figure>
             ))}
-          </div>
+          </Stagger>
         )}
 
-        <div className="reviews-cta reveal">
+        <Reveal className="reviews-cta">
           <Stars />
           <p>Read verified buyer reviews on my Fiverr profile.</p>
-          <ExternalLink className="btn btn-primary" href={links.fiverr}>
-            <Icon name="fiverr" /> See reviews on Fiverr
+          <ExternalLink className="btn btn-primary btn-shine" href={links.fiverr} data-track="reviews">
+            See reviews on <FiverrLogo />
           </ExternalLink>
-        </div>
+        </Reveal>
       </div>
     </section>
   );
